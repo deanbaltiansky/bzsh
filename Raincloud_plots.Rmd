@@ -1,0 +1,213 @@
+---
+title: "Rainclout Plot"
+author: "Dean Baltiansky"
+date: "2022-09-18"
+output: html_document
+---
+
+# Loading packages and data
+
+```{r setup, include=TRUE,warning=FALSE,message=FALSE}
+library(see)
+library(knitr)
+library(gridExtra)
+library(tidyverse)
+
+df.study2a <- read.csv("https://raw.githubusercontent.com/deanbaltiansky/bzsh/main/df.study2a.csv") %>% 
+  mutate(condition = as.factor(condition))
+
+df.study2b <- read.csv("https://raw.githubusercontent.com/deanbaltiansky/bzsh/main/df.study2b.csv") %>% 
+  mutate(condition = as.factor(condition))
+
+df.study2c <- read.csv("https://raw.githubusercontent.com/deanbaltiansky/bzsh/main/df.study2c.csv") %>% 
+  mutate(condition = as.factor(condition))
+```
+
+# Making plot for Study 2a
+
+```{r}
+donationPlot_raincloud_2a <- df.study2a %>% 
+  ggplot(aes(x = condition,y = totalDonation,color = condition, fill = condition)) +
+  scale_color_manual(values = c("orangered4",
+                                "deepskyblue4")) +
+  scale_fill_manual(values = c("orangered4",
+                                "deepskyblue4")) +
+  geom_violinhalf(position = position_nudge(0.15),
+                  #fill = "gray23",
+                  alpha = 0.4,
+                  size = 1.2) +
+  geom_jitter(alpha = 0.4,
+             size = 1,
+             position = position_jitter(0.15)) +
+  stat_summary(fun.data = "mean_cl_boot",
+               size = 1,
+               geom = "errorbar",
+               color = "#080807",
+               position = position_dodge(width = 0.3),
+               width = 0.1,
+               alpha = 0.8) +
+  stat_summary(fun = "mean",
+               geom = "point",
+               size = 3,
+               position = position_dodge(width = 0.3),
+               color = "black") +
+  annotate("text",
+           label = "*",
+           x = 1.685,
+           y = 95,
+           size = 10) +
+  scale_x_discrete(labels = c("1" = "Zero-Sum",
+                              "2" = "Win-Win"),
+                   expand = c(0.2,.3)) +
+  expand_limits(x = 2.7) +
+  ggtitle("Study 2a") +
+  ylab("Total Donation") +
+  theme(legend.position = "none",
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.background = element_blank(),
+        axis.ticks = element_blank(),
+        axis.line = element_line(color = "grey66"),
+        axis.line.x = element_blank(),
+        axis.text.y = element_text(color = "black",
+                                   size = 14),
+        axis.text.x = element_text(color = "black",
+                                   face = "bold",
+                                   size = 18,
+                                   hjust = 0.1),
+        axis.title.x = element_blank(),
+        axis.title.y = element_text(color = "black",
+                                   face = "bold",
+                                   size = 18),
+        plot.title = element_text(color = "black",
+                                  size = 20,
+                                  face = "bold",
+                                  hjust = 0.54))
+```
+
+# Making plot for Study 2b
+
+```{r}
+donationPlot_raincloud_2b <- df.study2b %>% 
+  ggplot(aes(x = condition,y = totalDonation,color = condition, fill = condition)) +
+  scale_color_manual(values = c("orangered4",
+                                "deepskyblue4")) +
+  scale_fill_manual(values = c("orangered4",
+                                "deepskyblue4")) +
+  geom_violinhalf(position = position_nudge(0.15),
+                  #fill = "gray23",
+                  alpha = 0.4,
+                  size = 1.2) +
+  geom_jitter(alpha = 0.4,
+             size = 1,
+             position = position_jitter(0.15)) +
+  stat_summary(fun.data = "mean_cl_boot",
+               size = 1,
+               geom = "errorbar",
+               color = "#080807",
+               position = position_dodge(width = 0.3),
+               width = 0.1,
+               alpha = 0.8) +
+  stat_summary(fun = "mean",
+               geom = "point",
+               size = 3,
+               position = position_dodge(width = 0.3),
+               color = "black") +
+  annotate("text",
+           label = "+",
+           x = 1.685,
+           y = 96,
+           size = 10) +
+  scale_x_discrete(labels = c("1" = "Zero-Sum",
+                              "2" = "Win-Win"),
+                   expand = c(.25,.32)) +
+  expand_limits(x = 2.7) +
+  ggtitle("Study 2b") +
+  ylab("Total Donation") +
+  theme(legend.position = "none",
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.background = element_blank(),
+        axis.ticks = element_blank(),
+        axis.line = element_blank(),
+        axis.text.y = element_blank(),
+        axis.line.y = element_blank(),
+        axis.text.x = element_text(color = "black",
+                                   face = "bold",
+                                   size = 18,
+                                   hjust = .1),
+        axis.title.x = element_blank(),
+        axis.title.y = element_blank(),
+        plot.title = element_text(color = "black",
+                                  size = 20,
+                                  face = "bold",
+                                  hjust = 0.55))
+```
+
+# Making plot for Study 2c
+
+```{r}
+donationPlot_raincloud_2c <- df.study2c %>% 
+  ggplot(aes(x = condition,y = totalDonation,color = condition, fill = condition)) +
+  scale_color_manual(values = c("orangered4",
+                                "deepskyblue4")) +
+  scale_fill_manual(values = c("orangered4",
+                                "deepskyblue4")) +
+  geom_violinhalf(position = position_nudge(0.15),
+                  #fill = "gray23",
+                  alpha = 0.4,
+                  size = 1.2) +
+  geom_jitter(alpha = 0.4,
+             size = 1,
+             position = position_jitter(0.15)) +
+  stat_summary(fun.data = "mean_cl_boot",
+               size = 1,
+               geom = "errorbar",
+               color = "#080807",
+               position = position_dodge(width = 0.3),
+               width = 0.1,
+               alpha = 0.8) +
+  stat_summary(fun = "mean",
+               geom = "point",
+               size = 3,
+               position = position_dodge(width = 0.3),
+               color = "black") +
+  annotate("text",
+           label = "***",
+           x = 1.645,
+           y = 95,
+           size = 10) +
+  scale_x_discrete(labels = c("1" = "Zero-Sum",
+                              "2" = "Win-Win"),
+                   expand = c(.25,.32)) +
+  expand_limits(x = 2.7) +
+  ggtitle("Study 2c") +
+  ylab("Total Donation") +
+  theme(legend.position = "none",
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.background = element_blank(),
+        axis.ticks = element_blank(),
+        axis.line = element_blank(),
+        axis.text.y = element_blank(),
+        axis.line.y = element_blank(),
+        axis.text.x = element_text(color = "black",
+                                   face = "bold",
+                                   size = 18,
+                                   hjust = .1),
+        axis.title.x = element_blank(),
+        axis.title.y = element_blank(),
+        plot.title = element_text(color = "black",
+                                  size = 20,
+                                  face = "bold",
+                                  hjust = 0.54))
+```
+
+# Generating the plot
+
+```{r}
+jpeg("BZSHplot_rainC.jpg", width = 1000, height = 300)
+grid.arrange(donationPlot_raincloud_2a,donationPlot_raincloud_2b,donationPlot_raincloud_2c,nrow = 1)
+```
+
+
